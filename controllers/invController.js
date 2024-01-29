@@ -18,5 +18,42 @@ invCont.buildByClassificationId = async function (req, res, next) {
     grid,
   })
 }
+/* ***************************
+ *  Build Detail view by inventory id
+ * ************************** */
+invCont.buildByInventoryId = async function (req, res, next) {
+    // Extract inventory ID from request parameters
+    const inventory_id = req.params.inventoryId;
+
+    // Fetch details using the inventory ID
+    const data = await invModel.getDetailsByInventoryId(inventory_id);
+
+    // Build grid based on the fetched data
+    const grid = await utilities.buildDetailGrid(data);
+
+    // Get navigation information
+    let nav = await utilities.getNav();
+
+    // Extract specific details for rendering the title
+    const year = data[0].inv_year;
+    const model = data[0].inv_model;
+    const make = data[0].inv_make;
+
+    // Render the inventory details page
+    res.render("./inventory/inventory-details", {
+      title: `${year} ${make} ${model}`, 
+      nav,
+      grid,
+    });
+};
+
+/* ***************************
+ *  Error
+ * ************************** */
+invCont.buildError = function (req, res, next) {
+  // Modify the error message or add additional logic
+  throw { message: "Oops! Something went wrong. It's not you; it's me." };
+};
+
 
 module.exports = invCont

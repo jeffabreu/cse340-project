@@ -154,7 +154,60 @@ nav li {
 footer {
   text-align: center;
 }
+
+/******* inventory detail page style ***************/
+.vehicle-detail {
+  text-align: left;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.detail-label {
+  color: rgb(1, 176, 211);
+  background-color: rgb(184, 255, 255);
+  padding: 10px;
+}
+
+.detail-value {
+  font-size: 0.6em;
+}
+/******* inventory styling ***************/
+#inv-display {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  text-align: center;
+  padding: 10px;
+}
+
+#inv-display li {
+  justify-self: center;
+  width: 400px;
+  min-height: 300px;
+  list-style: none;
+  padding: 10px;
+  border: 1px solid black;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.namePrice h2 {
+  padding: 10px;
+  font-size: 1.2em;
+}
+
+#inv-display li a {
+  text-decoration: none;
+  color: black;
+}
+
+#inv-display li a:hover {
+  color: rgb(1, 176, 211);
+}
+
+
 @media screen and (max-width: 700px) {
+  /* Responsive styling for small screens */
   .hero-text {
     background-color: rgb(223, 247, 247, 0.8);
     margin: 1em;
@@ -165,24 +218,37 @@ footer {
     top: 220px;
     border-radius: 10px;
   }
+
   .grid-content {
     display: grid;
-    grid-template-columns: 1fr ;
-
+    grid-template-columns: 1fr;
   }
+
   .grid-upgrades {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
+  }
+
+  #inv-display {
+    display: flex;
+    flex-direction: column; 
+
+  }
+  #inv-display li {
+    width: 300px;
+  }
+
+  .vehicle-detail {
+    text-align: left;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .vehicle-detail img {
+    width: 200px;
+    height: auto;
   }
 }
 
 
-@media screen and (min-width: 1100px) {
-  
-}
-
-
-@media screen and (min-width: 1700px) {
-  
-}

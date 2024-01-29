@@ -1,0 +1,23 @@
+<!-- This view consists of three distinct sections: 
+    1. Content Heading
+    2. Message Block
+    3. Inventory Items Display -->
+
+<!-- Content Heading -->
+<% if (title) { %>
+    <!-- Display content heading if title is available -->
+    <h1>
+        <%= title %>
+    </h1>
+<% } else { 
+    // If title is not available, redirect to the home page
+    res.redirect('/');
+} %>
+
+<!-- Message Block -->
+<%# messages() %>
+<!-- Display any messages, if available -->
+
+<!-- Inventory Items Display -->
+<%- grid %>
+<!-- Display the inventory items grid -->

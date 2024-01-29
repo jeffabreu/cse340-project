@@ -60,3 +60,72 @@ Util.buildClassificationGrid = async function(data){
   }
   return grid
 }
+
+/* ****************************************
+* Build the inventory view HTML
+ **************************************** */
+Util.buildDetailGrid = async function (data) {
+  let grid;
+
+  if (data.length > 0) {
+    grid = '<div id="detail-inv-grid">';
+
+    // Loop through each vehicle in the data
+    data.forEach(vehicle => {
+      // Start a container for each vehicle detail
+      grid += '<div class="vehicle-detail">';
+
+      // Add the vehicle image with alt text
+      grid += `<img src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model} on CSE Motors" />`;
+
+      // Start a table for other details
+      grid += '<table>';
+
+      // Add row for color
+      grid += '<tr>';
+      grid += '<td class="detail-label">Color:</td>';
+      grid += `<td class="detail-value">${vehicle.inv_color}</td>`;
+      grid += '</tr>';
+
+      // Add row for mileage
+      grid += '<tr>';
+      grid += '<td class="detail-label">Mileage:</td>';
+      grid += `<td class="detail-value">${new Intl.NumberFormat("en-US").format(vehicle.inv_miles)}</td>`;
+      grid += '</tr>';
+
+      // Add row for description
+      grid += '<tr>';
+      grid += '<td class="detail-label">Description:</td>';
+      grid += `<td class="detail-value">${vehicle.inv_description}</td>`;
+      grid += '</tr>';
+
+      // Add row for price
+      grid += '<tr>';
+      grid += '<td class="detail-label">Price:</td>';
+      grid += `<td class="detail-value">$${new Intl.NumberFormat("en-US").format(vehicle.inv_price)}</td>`;
+      grid += '</tr>';
+
+      // Close the table and container for the current vehicle
+      grid += '</table>';
+      grid += '</div>';
+    });
+
+    // Close the grid container
+    grid += '</div>';
+  } else {
+    // Display a notice if no matching vehicles are found
+    grid = '<p class="notice">Sorry, no matching vehicle could be found.</p>';
+  }
+
+  return grid;
+};
+
+/* ****************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for 
+ * General Error Handling
+ **************************************** */
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
+
+module.exports = Util
