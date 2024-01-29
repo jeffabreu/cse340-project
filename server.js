@@ -45,12 +45,16 @@ app.use(async (err, req, res, next) => {
   
   // Customize error message based on status
   let message;
-  if (err.status == 404) {
-    message = err.message;
-  } else {
-    message = 'Unexpected error for this route';
+  switch (err.status) {
+    case 404:
+      message = 'Oops! The requested page could not be found.';
+      break;
+    case 500:
+      message = 'Oops! There was a server error. Please try again later.';
+      break;
+    default:
+      message = 'Unexpected error for this route';
   }
-
   // Render the error page
   res.render("errors/error", {
     title: err.status || 'Server Error',
