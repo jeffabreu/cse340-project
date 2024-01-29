@@ -51,7 +51,6 @@ invCont.buildByInventoryId = async function (req, res, next) {
  *  Error
  * ************************** */
 invCont.buildError = function (req, res, next) {
-  // Modify the error message or add additional logic
   throw { message: "Oops! Something went wrong. It's not you; it's me." };
 };
 
