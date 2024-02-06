@@ -205,7 +205,35 @@ footer {
   color: rgb(1, 176, 211);
 }
 
-
+/******* login styling ***************/
+.login-form, .registration-form, .add-class, .add-inv {
+  width: 500px;
+  
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+  padding: 10px;
+  margin: auto;
+  background-color: rgb(1, 176, 211);
+  border-radius: 10px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+.form-group input {
+  border-radius: 10px;
+  padding: 3px;
+}
+.btn-submit, .btn-submit a {
+  max-width: 100px;
+  margin: auto;
+  margin-top: 5px;
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+}
 @media screen and (max-width: 700px) {
   /* Responsive styling for small screens */
   .hero-text {

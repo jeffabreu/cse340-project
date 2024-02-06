@@ -3,8 +3,33 @@ const pool = require("../database/")
 /* ***************************
  *  Get all classification data
  * ************************** */
-async function getClassifications(){
+async function getClassifications() {
+  // Retrieve all classification data from the database
   return await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
+}
+
+/* *****************************
+*   Register new Classification
+* *************************** */
+async function registerClassification(classification_name) {
+  try {
+    // SQL query to insert a new classification into the database
+    const sql = "INSERT INTO classification (classification_name) VALUES ($1) RETURNING *"
+    return await pool.query(sql, [classification_name]) // Execute the SQL query with the provided classification name
+  } catch (error) {
+    return error.message // Return error message if an error occurs
+  }
+}
+
+// Function to add inventory to the database
+async function addInventory(inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id) {
+  try {
+    // SQL query to insert inventory into the database
+    const sql = "INSERT INTO inventory (inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *"
+    return await pool.query(sql, [inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id])
+  } catch (error) {
+    return error.message
+  }
 }
 
 /* ***************************
@@ -12,6 +37,7 @@ async function getClassifications(){
  * ************************** */
 async function getInventoryByClassificationId(classification_id) {
   try {
+    // SQL query to get inventory items and corresponding classification names by classification_id
     const data = await pool.query(
       `SELECT * FROM public.inventory AS i 
       JOIN public.classification AS c 
@@ -19,34 +45,56 @@ async function getInventoryByClassificationId(classification_id) {
       WHERE i.classification_id = $1`,
       [classification_id]
     )
-    return data.rows
+    return data.rows // Return the retrieved data
   } catch (error) {
     console.error("getclassificationsbyid error " + error)
   }
 }
 
-/* ***************************
- *  Get the details for the items displaied in the view
- * ************************** */
-async function getDetailsByInventoryId(inventory_id) {
+// Function to get vehicle details by vehicle ID
+async function getVehicleById(vehicle_id) {
   try {
+    // SQL query to get vehicle details by vehicle ID
     const data = await pool.query(
-      `SELECT * FROM public.inventory AS i 
-      WHERE i.inv_id = $1`,
-      [inventory_id]
+      `SELECT * FROM public.inventory
+       WHERE inv_id = $1`,
+       [vehicle_id]
     )
-    return data.rows
+    return data.rows // Return the retrieved data
   } catch (error) {
-    console.error("getdetailsbyinventoryid error " + error)
+    console.error(`getVehicleById error ${error}`)
   }
 }
 
+// Function to check if a classification already exists by its name
+async function checkExistingCat(classification_name) {
+  try {
+    const sql = "SELECT * FROM classification WHERE classification_name = $1"
+    const classification = await pool.query(sql, [classification_name])
+    return  classification.rowCount // Return the count of existing classifications with the provided name
+  } catch (error) {
+    return error.message // Return error message if an error occurs
+  }
+}
 
+// Function to check if a classification already exists by its ID
+async function checkExistingCatById(classification_id) {
+  try {
+    const sql = "SELECT * FROM classification WHERE classification_id = $1"
+    const classification = await pool.query(sql, [classification_id])
+    return  classification.rowCount // Return the count of existing classifications with the provided ID
+  } catch (error) {
+    return error.message // Return error message if an error occurs
+  }
+}
 
-
-
-
-
-
-module.exports = {getClassifications, getInventoryByClassificationId, getDetailsByInventoryId};
-
+// Export all functions for use in other modules
+module.exports = {
+    getClassifications,
+    getInventoryByClassificationId,
+    getVehicleById,
+    registerClassification,
+    addInventory,
+    checkExistingCat,
+    checkExistingCatById
+}

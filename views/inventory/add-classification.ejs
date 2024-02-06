@@ -1,0 +1,28 @@
+<% if (title) { %> <!-- Check if title exists -->
+  <h1><%= title %></h1> <!-- Display title -->
+  <%- messages() %> <!-- Display any messages -->
+
+  <% if (errors) { %> <!-- Check if errors exist -->
+    <ul class="notice">
+       <% errors.array().forEach(error => { %> <!-- Loop through errors -->
+           <li><%= error.msg %></li> <!-- Display each error message -->
+       <%  }) %>
+    </ul>
+  <% } %>
+<% } else {
+    res.redirect('/') <!-- If no title, redirect to home -->
+} %>
+
+<div class="container">
+  <form id="addClassificationForm" action="/inv/add-classification" method="post" class="add-class">
+      <h2>Register New Classification</h2>
+
+      <div class="form-group">
+          <label for="classification_name">Classification Name:</label>
+          <input type="text" name="classification_name" id="classificationName" required value="<%= locals.classification_name %>" pattern="[A-Za-z0-9]+">
+          <!-- Input for classification name with client-side validation for alphanumeric characters only -->
+      </div>
+
+      <button class="btn-submit" type="submit">Submit</button> <!-- Submit button -->
+  </form>
+</div>

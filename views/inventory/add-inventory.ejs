@@ -1,0 +1,71 @@
+<% if (title) { %> <!-- Check if title exists -->
+  <h1><%= title %></h1> <!-- Display title -->
+  <%- messages() %> <!-- Display any messages -->
+
+  <% if (errors) { %> <!-- Check if errors exist -->
+    <ul class="notice">
+       <% errors.array().forEach(error => { %> <!-- Loop through errors -->
+           <li><%= error.msg %></li> <!-- Display each error message -->
+       <%  }) %>
+    </ul>
+  <% } %>
+<% } else {
+    res.redirect('/') <!-- If no title, redirect to home -->
+} %>
+
+<div class="container">
+  <form id="addInventoryForm" action="/inv/add-inventory" method="post" class="add-inv">
+      <h2>Register New Vehicle</h2>
+
+      <!-- Form fields wrapped inside div with class "form-group" -->
+      <div class="form-group">
+          <label for="inv_make">Make:</label>
+          <input type="text" name="inv_make" id="invMake" required value="<%= locals.inv_make %>" pattern="[A-Za-z0-9]+">
+      </div>
+
+      <div class="form-group">
+          <label for="inv_model">Model:</label>
+          <input type="text"  name="inv_model" id="invModel" required value="<%= locals.inv_model %>" pattern="[A-Za-z0-9 -.]+">
+      </div>
+
+      <div class="form-group">
+          <label for="inv_year">Year:</label>
+          <input type="number"  name="inv_year" id="invYear" required value="<%= locals.inv_year %>" pattern="{4}" placeholder="2024">
+      </div>
+
+      <div class="form-group">
+          <label for="inv_description">Description:</label>
+          <input type="text" name="inv_description" id="invDescription" required value="<%= locals.inv_description %>" pattern="[A-Za-z0-9 .,!$?]+">
+      </div>
+
+      <div class="form-group">
+          <label for="inv_image">Primary Image:</label>
+          <input type="text"  name="inv_image" id="invImage" required value="no-image.png" readonly>
+      </div>
+
+      <div class="form-group">
+          <label for="inv_thumbnail">Thumbnail Image:</label>
+          <input type="text"  name="inv_thumbnail" id="invThumbnail" required value="no-image-tn.png" readonly>
+      </div>
+
+      <div class="form-group">
+          <label for="inv_price">Asking Price:</label>
+          <input type="number"  name="inv_price" id="invPrice" required value="<%= locals.inv_price %>" step="100">
+      </div>
+
+      <div class="form-group">
+          <label for="inv_miles">Miles:</label>
+          <input type="number"  name="inv_miles" id="invMiles" required value="<%= locals.inv_miles %>">
+      </div>
+
+      <div class="form-group">
+          <label for="inv_color">Color:</label>
+          <input type="text"  name="inv_color" id="invColor" required value="<%= locals.inv_color %>">
+      </div>
+
+      <!-- Dropdown select list for classification -->
+      <%- categories %>
+      <!--Form inputs, including the select list for classifications, must be sticky-->
+      <button class="btn-submit" type="submit">Submit</button> <!-- Submit button -->
+  </form>
+</div>

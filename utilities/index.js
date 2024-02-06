@@ -6,7 +6,7 @@ const Util = {}
  ************************** */
 Util.getNav = async function (req, res, next) {
   let data = await invModel.getClassifications()
-  let list = "<ul>"
+  let list = '<ul class="flex">'
   list += '<li><a href="/" title="Home page">Home</a></li>'
   data.rows.forEach((row) => {
     list += "<li>"
@@ -24,9 +24,18 @@ Util.getNav = async function (req, res, next) {
   return list
 }
 
-module.exports = Util
+Util.getCats = async (req,res,next) => {
+  let data = await invModel.getClassifications()
+  let list =
+  `<select name="classification_id" id="classificationId">
+    <option value="none" disabled hidden>Select an Option</option>`
 
-
+  data.rows.forEach((row) => {
+    list += `<option value="${row.classification_id}">${row.classification_name}</option>`
+  })
+  list += `</select>`
+  return list
+}
 
 /* **************************************
 * Build the classification view HTML
@@ -61,10 +70,15 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
-/* ****************************************
-* Build the inventory view HTML
- **************************************** */
-Util.buildDetailGrid = async function (data) {
+Util.buildManagementTools = async () =>{
+  let actions
+  actions += `<button type=">`
+}
+
+/* **************************************
+* Build the classification view HTML
+* ************************************ */
+Util.buildDetailsGrid = async function (data) {
   let grid;
 
   if (data.length > 0) {
@@ -120,12 +134,6 @@ Util.buildDetailGrid = async function (data) {
   return grid;
 };
 
-/* ****************************************
- * Middleware For Handling Errors
- * Wrap other function in this for 
- * General Error Handling
- **************************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
-
-module.exports = Util
+module.exports = {Util}
