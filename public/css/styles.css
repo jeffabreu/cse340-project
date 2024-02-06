@@ -234,6 +234,9 @@ footer {
   background-color: black;
   color: white;
 }
+.options {
+  margin: auto;
+}
 @media screen and (max-width: 700px) {
   /* Responsive styling for small screens */
   .hero-text {
