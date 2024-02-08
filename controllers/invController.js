@@ -9,8 +9,8 @@ const invCont = {}
 invCont.buildByClassificationId = async function (req, res, next) {
   const classification_id = req.params.classificationId
   const data = await invModel.getInventoryByClassificationId(classification_id)
-  const grid = await utilities.Util.buildClassificationGrid(data)
-  let nav = await utilities.Util.getNav()
+  const grid = await utilities.buildClassificationGrid(data)
+  let nav = await utilities.getNav()
   const className = data[0].classification_name
   res.render("./inventory/classification", {
     title: className + " vehicles",
@@ -22,8 +22,8 @@ invCont.buildByClassificationId = async function (req, res, next) {
 invCont.buildByVehicleId = async function (req, res, next) {
   const vehicle_id = req.params.vehicleId
   const data = await invModel.getVehicleById(vehicle_id)
-  const grid = await utilities.Util.buildDetailsGrid(data)
-  let nav = await utilities.Util.getNav()
+  const grid = await utilities.buildDetailsGrid(data)
+  let nav = await utilities.getNav()
     const vehicle = `${data[0].inv_year} ${data[0].inv_make} ${data[0].inv_model}`
     res.render("./inventory/inventory-details", {
       title: `${vehicle}`,
@@ -34,7 +34,7 @@ invCont.buildByVehicleId = async function (req, res, next) {
 }
 
 invCont.buildManagementTools = async function (req,res,next) {
-  let nav = await utilities.Util.getNav()
+  let nav = await utilities.getNav()
   res.render("./inventory/management", {
     title: "Inventory Management Tools",
     nav,
@@ -46,7 +46,7 @@ invCont.buildManagementTools = async function (req,res,next) {
 *  Deliver Add Classification view
 * *************************************** */
 invCont.buildClassificationForm = async function (req, res, next) {
-  let nav = await utilities.Util.getNav()
+  let nav = await utilities.getNav()
   res.render("./inventory/add-classification", {
     title: "Register New Classification",
     nav,
@@ -55,8 +55,8 @@ invCont.buildClassificationForm = async function (req, res, next) {
 }
 
 invCont.buildInventoryForm = async function (req, res, next) {
-  let nav = await utilities.Util.getNav()
-  let categories = await utilities.Util.getCats()
+  let nav = await utilities.getNav()
+  let categories = await utilities.getCats()
   res.render("./inventory/add-inventory", {
     title: "Add New Inventory Item",
     nav,
@@ -86,8 +86,8 @@ async function addInventory(req, res) {
 
 
   if (result) {
-    let nav = await utilities.Util.getNav()
-    let categories = await utilities.Util.getCats()
+    let nav = await utilities.getNav()
+    let categories = await utilities.getCats()
     req.flash(
       "notice",
       `Inventory updated successfully.`
@@ -116,7 +116,7 @@ async function registerClassification(req, res) {
   )
 
   if (regResult) {
-    let nav = await utilities.Util.getNav()
+    let nav = await utilities.getNav()
     req.flash(
       "notice",
       `Congradulations! ${classification_name} has been added.`
@@ -127,7 +127,7 @@ async function registerClassification(req, res) {
       errors: null
     })
   } else {
-    let nav = utilities.Util.getNav()
+    let nav = utilities.getNav()
     req.flash("notice", "Sorry, the action failed.")
     res.status(501).render("inventory/add-classification", {
       title: "Add New Classification",

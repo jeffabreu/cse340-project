@@ -8,7 +8,7 @@ require("dotenv").config()
 * *************************************** */
 async function buildLogin(req, res, next) {
     // Retrieve navigation HTML
-    let nav = await utilities.Util.getNav()
+    let nav = await utilities.getNav()
     // Render login view with title, navigation, and no errors
     res.render("account/login", {
       title: "Login",
@@ -22,7 +22,7 @@ async function buildLogin(req, res, next) {
 * *************************************** */
 async function buildRegister(req, res, next) {
   // Retrieve navigation HTML
-  let nav = await utilities.Util.getNav()
+  let nav = await utilities.getNav()
   // Render registration view with title, navigation, and no errors
   res.render("account/register", {
     title: "Register",
@@ -35,7 +35,7 @@ async function buildRegister(req, res, next) {
 *  Process Registration
 * *************************************** */
 async function registerAccount(req, res) {
-  let nav = await utilities.Util.getNav()
+  let nav = await utilities.getNav()
   const { account_firstname, account_lastname, account_email, account_password } = req.body
   let hashedPassword;
 
@@ -86,7 +86,7 @@ async function registerAccount(req, res) {
  *  Process login request
  * ************************************ */
 async function accountLogin(req, res) {
-  let nav = await utilities.Util.getNav()
+  let nav = await utilities.getNav()
   const { account_email, account_password } = req.body
   const accountData = await accountModel.getAccountByEmail(account_email)
   if (!accountData) {
@@ -115,7 +115,7 @@ async function accountLogin(req, res) {
 *  Deliver Management view
 * *************************************** */
 async function buildManagement(req, res, next) {
-  let nav = await utilities.Util.getNav()
+  let nav = await utilities.getNav()
   res.render("account/", {
     title: "Account Management",
     nav,

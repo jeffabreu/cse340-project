@@ -42,7 +42,7 @@ app.use((req,res,next)=>{
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 app.use(cookieParser())
-app.use(utilities.Util.checkJWTToken)
+app.use(utilities.checkJWTToken)
 /* ***********************
  * View Engine Templates
  *************************/
@@ -56,8 +56,8 @@ app.set("layout", "./layouts/layout") // not at views root
 app.use(static)
 
 //Index route
-app.get("/", utilities.Util.handleErrors(baseController.buildHome))
-app.get("/error", utilities.Util.handleErrors(baseController.error))
+app.get("/", utilities.handleErrors(baseController.buildHome))
+app.get("/error", utilities.handleErrors(baseController.error))
 
 // Inventory routes
 app.use("/inv", inventoryRoute)
@@ -75,7 +75,7 @@ app.use(async (req, res, next) => {
 * Place after all other middleware
 *************************/
 app.use(async (err, req, res, next) => {
-  let nav = await utilities.Util.getNav()
+  let nav = await utilities.getNav()
   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
   res.render("errors/error", {
     title: err.status || 'Server Error',

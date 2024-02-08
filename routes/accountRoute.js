@@ -6,17 +6,17 @@ const accountController = require("../controllers/accountController")
 const regValidate = require('../utilities/account-validation')
 
 // Route to build inventory by classification view
-router.get("/login", utilities.Util.handleErrors(accountController.buildLogin))
+router.get("/login", utilities.handleErrors(accountController.buildLogin))
 
 
-router.get("/register", utilities.Util.handleErrors(accountController.buildRegister))
+router.get("/register", utilities.handleErrors(accountController.buildRegister))
 
 // Process the registration data
 router.post(
     "/register",
     regValidate.registationRules(),
     regValidate.checkRegData,
-    utilities.Util.handleErrors(accountController.registerAccount)
+    utilities.handleErrors(accountController.registerAccount)
   )
 
 // Process the login request
@@ -24,13 +24,13 @@ router.post(
   "/login",
   regValidate.loginRules(),
   regValidate.checkLoginData,
-  utilities.Util.handleErrors(accountController.accountLogin)
+  utilities.handleErrors(accountController.accountLogin)
 )
 
 // Route to build Account Management view
 router.get("/", 
-utilities.Util.checkLogin,
-utilities.Util.handleErrors(accountController.buildManagement))
+utilities.checkLogin,
+utilities.handleErrors(accountController.buildManagement))
 
 
 module.exports = router;
