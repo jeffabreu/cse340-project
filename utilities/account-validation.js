@@ -2,6 +2,8 @@ const utilities = require(".")
 const { body, validationResult } = require("express-validator")
 const accountModel = require("../models/account-model")
 const validate = {}
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
 validate.loginRules = () => {
   return [
