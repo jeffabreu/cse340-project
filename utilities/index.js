@@ -134,6 +134,22 @@ Util.buildDetailsGrid = async function (data) {
 
   return grid;
 };
+
+Util.buildClassDropdown = async function (classification_id) {
+  let data = await invModel.getClassifications()
+  let select =
+    '<label for="classification_id">Classification:</label><select id="classification_id" class="class-dropdown p-font" name="classification_id" required><option value="" disabled selected>Select classification</option>'
+
+  for (var i = 0; i < data.rowCount; i++) {
+    const selected =
+      classification_id && data.rows[i].classification_id === classification_id
+        ? "selected"
+        : ""
+    select += `<option value="${data.rows[i].classification_id}" ${selected}>${data.rows[i].classification_name}</option>`
+  }
+  select += "</select>"
+  return select
+}
 /* ****************************************
  *  Check Login
  * ************************************ */
@@ -145,7 +161,7 @@ Util.checkLogin = (req, res, next) => {
     return res.redirect("/account/login")
   }
  }
-Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
 /* ****************************************
 * Middleware to check token validity
 **************************************** */
@@ -168,16 +184,5 @@ Util.checkJWTToken = (req, res, next) => {
    next()
   }
  }
-
- /* ****************************************
- *  Check Login
- * ************************************ */
- Util.checkLogin = (req, res, next) => {
-  if (res.locals.loggedin) {
-    next()
-  } else {
-    req.flash("notice", "Please log in.")
-    return res.redirect("/account/login")
-  }
- }
+ Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 module.exports = Util

@@ -226,7 +226,7 @@ footer {
   border-radius: 10px;
   padding: 3px;
 }
-.btn-submit, .btn-submit a {
+.btn-submit, .btn-submit a, .form-button {
   max-width: 100px;
   margin: auto;
   margin-top: 5px;

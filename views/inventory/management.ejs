@@ -16,3 +16,16 @@
   <button class="btn-submit" type="button"><a href="./add-classification">+ New Classification</a></button>
   <button class="btn-submit" type="button"><a href="./add-inventory">+ New Vehicle</a></button>
 </div>
+<h2>Manage Inventory</h2>
+<p>Select an inventory item</p>
+<select id="classificationList">
+  <% classifications.forEach(function(classification) { %>
+  <option value="<%= classification.classification_id %>">
+    <%= classification.classification_name %>
+  </option>
+  <% }); %>
+</select>
+
+<table id="inventoryDisplay"></table>
+<noscript>JavaScript must be enabled to use this page.</noscript>
+<script src="../../js/inventory.js"></script>

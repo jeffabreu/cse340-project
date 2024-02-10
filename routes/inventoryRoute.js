@@ -34,4 +34,18 @@ router.post(
     utilities.handleErrors(invController.addInventory) // Handle errors and add the inventory
 );
 
+router.get("/delete/:inv_id", utilities.handleErrors(invController.buildDelete))
+router.post("/delete/", utilities.handleErrors(invController.deleteInventory))
+
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.invCont.getInventoryJSON))
+router.get("/edit/:inv_id", utilities.handleErrors(invController.buildEdit))
+router.post(
+    "/update/",
+    (req, res, next) => utilities.checkLogin(req, res, next, ['admin', 'employee']),
+    validation.vehicleRules(),
+    validation.checkUpdateData,
+    utilities.handleErrors(invController.updateInventory)
+  )
+//router.get('/edit/:inv_id', utilities.handleErrors(invController.invCont.editInventoryView));
+
 module.exports = router; // Exporting the router with defined routes
