@@ -206,7 +206,7 @@ footer {
 }
 
 /******* login styling ***************/
-.login-form, .registration-form, .add-class, .add-inv {
+.login-form, .registration-form, .add-class, .add-inv, .body-update {
   width: 500px;
   
   display: flex;
