@@ -184,5 +184,19 @@ Util.checkJWTToken = (req, res, next) => {
    next()
   }
  }
+
+/* ****************************************
+* Error handler
+**************************************** */
  Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
+/* ****************************************
+* Logout user
+**************************************** */
+Util.logout = (req, res, next) => {
+  res.clearCookie("jwt");
+  res.locals.loggedin = 0;
+};
+
+
 module.exports = Util

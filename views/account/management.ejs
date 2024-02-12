@@ -1,0 +1,28 @@
+<!-- Content heading -->
+<% if (title) { %>
+    <!-- If title exists, display it as heading -->
+    <h1><%= title %></h1>
+<% } else { 
+    // If title doesn't exist, redirect to home page 
+    res.redirect('/') 
+}%>
+
+<!-- Message block -->
+<%- messages() %>
+
+<% if (locals.accountData.account_type === "Client") { %>
+    <!-- If account type is Client, greet with first name in h2 element -->
+    <h2>Welcome <%= locals.accountData.account_firstname %></h2>
+<% } else { %>
+    <!-- If account type is Employee or Admin, greet with first name in h2 element -->
+    <h2>Welcome <%= locals.accountData.account_firstname %></h2>
+    <!-- Display Inventory Management section for Employee or Admin -->
+    <h3>Inventory Management</h3>
+    <p>
+        <!-- Link to manage inventory -->
+        <a title="Inventory Management" href="/inv/" class="p-font">Manage Inventory</a>
+    </p>
+<% } %>
+
+<!-- Link to update account information -->
+<a href="/account/edit/<%=locals.accountData.account_id%>" title="Update Account Information" class="p-font">Update Account Information</a>
