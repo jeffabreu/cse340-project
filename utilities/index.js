@@ -141,7 +141,7 @@ Util.buildDetailsGrid = async function (data) {
    Function: Build Reviews By Inventory Id
    Description: Builds HTML markup for displaying reviews based on inventory ID.
 */
-Util.buildReviewsByInventoryId = async function(data) {
+Util.buildReviewsForInventory = async function(data) {
   let invReviews = "" // Initialize empty string for storing HTML markup
   let screenName
   let accData
@@ -167,7 +167,7 @@ Util.buildReviewsByInventoryId = async function(data) {
  Function: Build Reviews By Account Id
  Description: Builds HTML markup for displaying reviews based on account ID.
 */
-Util.buildReviewsByAccountId = async function(reviewData, invData) {
+Util.buildReviewsForAccount = async function(reviewData, invData) {
   let reviewList = "" // Initialize empty string for storing HTML markup
   let invItem, invName
 

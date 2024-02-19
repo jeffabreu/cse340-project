@@ -123,7 +123,7 @@ async function buildManagement(req, res, next) {
   const account_id = res.locals.accountData.account_id
   const reviewData = await reviewModel.getRevByAccId(account_id)
   const invData = await invModel.getInventory()
-  const reviews = await utilities.buildReviewsByAccountId(reviewData, invData)
+  const reviews = await utilities.buildReviewsForAccount(reviewData, invData)
   res.render("./account/management", {
     title: "Account Management",
     nav,
