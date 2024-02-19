@@ -20,11 +20,11 @@ reviewCont.addRev = async function(req, res) {
     if (addRevResult) {
         req.flash(
             "notice",
-            "Thank you for your review"
+            "Thank you for your review. It has been successfully submitted."
         )
         res.status(201).redirect("/account")
     } else {
-        req.flash("notice", "Adding review failed")
+        req.flash("notice", "Adding review failed. Please try again.")
         res.redirect("/detail/inv_id")
     }
 }
@@ -75,10 +75,10 @@ reviewCont.editReview = async function(req, res, next) {
     
     // Redirect based on the result of editing the review
     if (editResult) {
-        req.flash("notice", "You've succuessfully edited your review")
+        req.flash("notice", "Your review has been successfully edited.")
         res.status(200).redirect("/account")
     } else {
-        req.flash("notice", "Review edit failed")
+        req.flash("notice", "Review edit failed. Please try again.")
         res.status(500).redirect(`/review/edit/${review_id}`)
     }
 }
@@ -130,10 +130,10 @@ reviewCont.deleteReview = async function(req, res, next) {
     
     // Redirect based on the result of deleting the review
     if (deleteResult) {
-        req.flash("notice", "You've succuessfully deleted your review")
+        req.flash("notice", "Your review has been successfully deleted.")
         res.status(200).redirect("/account")
     } else {
-        req.flash("notice", "Review delete failed")
+        req.flash("notice", "Review delete failed. Please try again.")
         res.status(500).redirect(`/review/delete/${review_id}`)
     }
 }

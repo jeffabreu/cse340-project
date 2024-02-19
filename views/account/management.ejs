@@ -6,7 +6,7 @@
     // If title doesn't exist, redirect to home page 
     res.redirect('/') 
 }%>
-
+<div class="account-management-view">
 <!-- Message block -->
 <%- messages() %>
 
@@ -34,3 +34,5 @@
 <% } else { %>
   <p>You have no reviews yet.</p>
 <% } %>
+
+</div>

@@ -32,44 +32,42 @@
 <!-- Message block -->
 <%# messages() %>
 
-<!-- Inventory items display -->
-
-
-<!-- Display reviews if they exist -->
 <h2>Customer Reviews</h2>
-
+<div class="reviews">
 <% if (reviews) { %>
+    <!-- Render the customer reviews -->
     <%- reviews %>    
 <% } else { %>
-    <p>Be the first to write a review</p>
+    <!-- Prompt the user to write the first review if there are none -->
+    <p>No reviews yet. Be the first to write one!</p>
 <% } %> 
-
+</div>
 
 <% if (locals.loggedin) { %>
 
-<h2>Add your own Review</h2>
+    <h2>Write Your Own Review</h2>
 
-<!-- The add review form displays here  -->
-<form id="addRevForm" action="/review" method="post">
+<form id="addRev" action="/review" method="post">
 
-    <div class="review-form">
+    <div class="add-review-form">
 
-      <label for="screen_name">Screen name</label>
-      <input type="text" name="screen_name" id="screenName" disabled value="<%= locals.accountData.account_firstname.charAt(0) + locals.accountData.account_lastname %>">
+        <label for="screen_name">User name</label>
+        <input type="text" name="screen_name" id="screenName" disabled value="<%= locals.accountData.account_firstname.charAt(0) + locals.accountData.account_lastname %>">
+    
+        <label for="review_text">Add your review</label>
 
-      <label for="review_text">Review</label>
-      <textarea name="review_text" id="reviewText" rows="4" cols="50" required></textarea>
-  
-      <button type="submit">Submit review</button>
-
-      <input type="hidden" name="inv_id"
-      <% if(vehicle_id) { %> value="<%= vehicle_id %>"
-      <% } %>>
-
-      <input type="hidden" name="account_id"
-      <% if(locals.accountData.account_id) { %> value="<%= locals.accountData.account_id %>"
-      <% } %>>
-
+        <textarea name="review_text" id="reviewText" rows="4" cols="50" required placeholder="Write your review here..."></textarea>
+    
+        <button type="submit" class="btn-submit">Submit review</button>
+    
+        <input type="hidden" name="inv_id"
+        <% if(vehicle_id) { %> value="<%= vehicle_id %>"
+        <% } %>>
+    
+        <input type="hidden" name="account_id"
+        <% if(locals.accountData.account_id) { %> value="<%= locals.accountData.account_id %>"
+        <% } %>>
+    
     </div>
 </form>
 

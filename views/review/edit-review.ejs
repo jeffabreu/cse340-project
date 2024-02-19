@@ -1,33 +1,36 @@
 <% if (title) { %>
+    <!-- Display title if it exists -->
     <h1><%= title %></h1>
 <% } else {
-    res.redirect('/')
+    // Redirect to home if title does not exist
+    res.redirect('/');
 } %>
-    
+ 
+
+
 <!-- Message block -->
 <%- messages() %>
-
-
+<div class="edit-review">
 <% if (locals.loggedin) { %>
+    <!-- Display add review form if user is logged in -->
+    <form id="addRev" action="/review/edit" method="post">
+        <div class="edit-form">
 
-<!-- The add review form displays here  -->
-<form id="addRevForm" action="/review/edit" method="post">
+            <label for="screen_name">Make</label>
+            <!-- Display user's first initial concatenated with last name -->
+            <input type="text" name="screen_name" id="screenName" disabled value="<%= locals.accountData.account_firstname.charAt(0) + locals.accountData.account_lastname %>">
 
-    <div class="account-form">
+            <label for="review_text">Description</label>
+            <!-- Textarea for editing review text, required field -->
+            <textarea name="review_text" id="reviewText" rows="4" cols="50" required><%= review_text %></textarea>
+        
+            <!-- Submit button for editing review -->
+            <button type="submit" class="btn-submit">Edit review</button>
 
-      <label for="screen_name">Make</label>
-      <input type="text" name="screen_name" id="screenName" disabled value="<%= locals.accountData.account_firstname.charAt(0) + locals.accountData.account_lastname %>">
+            <!-- Hidden input for review_id -->
+            <input type="hidden" name="review_id" <% if(review_id) { %> value="<%= review_id %>" <% } %>>
 
-      <label for="review_text">Description</label>
-      <textarea name="review_text" id="reviewText" rows="4" cols="50" required><%= review_text %></textarea>
-  
-      <button type="submit">Edit review</button>
-
-      <input type="hidden" name="review_id"
-      <% if(review_id) { %> value="<%= review_id %>"
-      <% } %>>
-
-    </div>
-    
-</form>
+        </div>
+    </form>
 <% } %>
+</div>

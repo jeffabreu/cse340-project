@@ -226,16 +226,90 @@ footer {
   border-radius: 10px;
   padding: 3px;
 }
-.btn-submit, .btn-submit a, .form-button {
+.btn-submit, .btn-submit a, .form-button, .edit-button, .edit-button a, .delete-button, .delete-button a{
   max-width: 100px;
   margin: auto;
   margin-top: 5px;
   border-radius: 10px;
   background-color: black;
   color: white;
+  text-decoration: none;
+}
+.btn-submit:hover, .btn-submit a:hover, .form-button:hover, .edit-button:hover, .edit-button a:hover, .delete-button:hover, .delete-button a:hover {
+  background-color: darkgray;
+  transform: scale(1.05);
 }
 .options {
   margin: auto;
+}
+
+/******* Account Management Style ***************/
+
+.account-management-view {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  align-items: center;
+  border: 1px solid rgb(1, 176, 211);
+  max-width: 500px;
+  border-radius: 10px;
+}
+
+.reviews-display {
+  display: flex;
+  background-color: rgb(1, 176, 211);
+  border-radius: 0 0 10px 10px;
+  
+}
+.delete-review, .edit-review {
+  display: flex;
+  align-items: center;
+  margin: auto;
+  flex-direction: column;
+}
+.reviews-display ul {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.reviews-display li {
+  list-style: none;
+  display: flex;
+  margin: 5px;
+  gap: 5px;
+  padding: none;
+  border-bottom: 1px solid white;
+}
+
+.delete-form, .edit-form, .add-review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  
+}
+
+.add-review-form, .review-box {
+  width: 600px;
+  margin: auto;
+  background-color: rgb(1,176,211);
+  border-radius: 10px;
+  padding: 10px;
+  list-style: none;
+}
+.review-box h3 {
+  text-decoration: underline;
+  font-size: 15px;
+}
+
+.review-text {
+  background-color: white;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.reviews ul {
+  padding: 5px;
 }
 @media screen and (max-width: 700px) {
   /* Responsive styling for small screens */

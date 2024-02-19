@@ -137,47 +137,63 @@ Util.buildDetailsGrid = async function (data) {
 };
 
 
+/* 
+   Function: Build Reviews By Inventory Id
+   Description: Builds HTML markup for displaying reviews based on inventory ID.
+*/
 Util.buildReviewsByInventoryId = async function(data) {
-  let invReviews
+  let invReviews = "" // Initialize empty string for storing HTML markup
   let screenName
   let accData
-  if (data.length > 0) {
-      invReviews = "<ul>"
 
-      for (let i = data.length-1; i >= 0; i--) {
+  // Check if there are reviews available
+  if (data.length > 0) {
+      invReviews += "<ul>" // Start unordered list
+      for (let i = data.length - 1; i >= 0; i--) {
           accData = await accountModel.getAccountByID(data[i].account_id)
-          screenName = accData.account_firstname.charAt(0) + accData.account_lastname           
-          invReviews += '<li id="review-display">'            
-          invReviews += `<p class="review-info">${screenName} wrote on ${data[i].review_date.toLocaleString()}</p>`  
-          invReviews += `<p>${data[i].review_text}</p>`
-          invReviews += "</li>"            
-     }
-     invReviews += "</ul>"       
-  }    
-  return invReviews
+          screenName = accData.account_firstname.charAt(0) + accData.account_lastname
+
+          invReviews += '<li class="review-box" id="review-display">' // Start list item
+          invReviews += `<h3 class="review-datails">The user ${screenName} submitted this review on ${data[i].review_date.toLocaleString()}</h3>` // Display user and submission date
+          invReviews += `<p class="review-text">${data[i].review_text}</p>` // Display review text
+          invReviews += "</li>" // End list item
+      }
+      invReviews += "</ul>" // End unordered list
+  }
+  return invReviews // Return the built HTML markup
 }
 
+/* 
+ Function: Build Reviews By Account Id
+ Description: Builds HTML markup for displaying reviews based on account ID.
+*/
 Util.buildReviewsByAccountId = async function(reviewData, invData) {
-  let reviewList  
+  let reviewList = "" // Initialize empty string for storing HTML markup
+  let invItem, invName
+
+  // Check if there are reviews available
   if (reviewData.length > 0) {
-      let invItem, invName        
-      reviewList = '<div id="management-review-display">'
-      reviewList += `<ul>`        
+      reviewList += '<div id="reviews-display" class="reviews-display">' // Start reviews display container
+      reviewList += `<ul>` // Start unordered list
+
       reviewData.forEach(review => {
           invData.forEach(item => {
-              if (item.inv_id == review.inv_id) {invItem = item}
+              if (item.inv_id == review.inv_id) {
+                  invItem = item
+              }
           })
-          // new Intl.Locale('en-US').format
-          invName = `${invItem.inv_year} ${invItem.inv_model} ${invItem.inv_make}`   
-          reviewList += `<li>Reviewed ${invName} ${review.review_date.toLocaleString()} | <a href="/review/edit/${review.review_id}">Edit</a> | <a href="/review/delete/${review.review_id}">Delete</a></li>`    
-     })
-     reviewList +='</ul>'
-     reviewList +='</div>'
-     
-  }
-  return reviewList
-}
+          invName = `${invItem.inv_year} ${invItem.inv_model} ${invItem.inv_make}`
 
+          reviewList += `<li> Vehicle Reviewed: ${invName} at: ${review.review_date.toLocaleString()}  
+              <button class="edit-button"><a href="/review/edit/${review.review_id}">Edit</a></button> 
+              <button class="delete-button"><a href="/review/delete/${review.review_id}">Delete</a></button></li>` // Display review with edit and delete buttons
+      })
+
+      reviewList += '</ul>' // End unordered list
+      reviewList += '</div>' // End reviews display container
+  }
+  return reviewList // Return the built HTML markup
+}
 
 
 
