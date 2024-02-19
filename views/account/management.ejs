@@ -26,3 +26,11 @@
 
 <!-- Link to update account information -->
 <a href="/account/edit/<%=locals.accountData.account_id%>" title="Update Account Information" class="p-font">Update Account Information</a>
+
+
+<h2>Reviews</h2>
+<% if (reviews) { %>
+  <%- reviews %>
+<% } else { %>
+  <p>You have no reviews yet.</p>
+<% } %>

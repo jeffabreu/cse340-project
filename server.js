@@ -18,6 +18,7 @@ const pool = require('./database/')
 const account = require("./routes/accountRoute")
 const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
+const reviewRoute = require("./routes/reviewRoute")
 /* ***********************
  * Middleware
  * ************************/
@@ -65,6 +66,7 @@ app.use("/inv", inventoryRoute)
 // Account routes
 app.use("/account", account)
 
+app.use("/review", reviewRoute)
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})

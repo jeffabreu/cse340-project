@@ -21,3 +21,58 @@
 <!-- Inventory Items Display -->
 <%- grid %>
 <!-- Display the inventory items grid -->
+
+<!-- The content heading -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
+    
+<!-- Message block -->
+<%# messages() %>
+
+<!-- Inventory items display -->
+
+
+<!-- Display reviews if they exist -->
+<h2>Customer Reviews</h2>
+
+<% if (reviews) { %>
+    <%- reviews %>    
+<% } else { %>
+    <p>Be the first to write a review</p>
+<% } %> 
+
+
+<% if (locals.loggedin) { %>
+
+<h2>Add your own Review</h2>
+
+<!-- The add review form displays here  -->
+<form id="addRevForm" action="/review" method="post">
+
+    <div class="review-form">
+
+      <label for="screen_name">Screen name</label>
+      <input type="text" name="screen_name" id="screenName" disabled value="<%= locals.accountData.account_firstname.charAt(0) + locals.accountData.account_lastname %>">
+
+      <label for="review_text">Review</label>
+      <textarea name="review_text" id="reviewText" rows="4" cols="50" required></textarea>
+  
+      <button type="submit">Submit review</button>
+
+      <input type="hidden" name="inv_id"
+      <% if(vehicle_id) { %> value="<%= vehicle_id %>"
+      <% } %>>
+
+      <input type="hidden" name="account_id"
+      <% if(locals.accountData.account_id) { %> value="<%= locals.accountData.account_id %>"
+      <% } %>>
+
+    </div>
+</form>
+
+  <% } else { %>
+    <p>You must <a title="Click to log in" href="/account/login">login</a> to write a review</p>
+  <% } %> 

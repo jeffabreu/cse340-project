@@ -1,6 +1,7 @@
 const invModel = require("../models/inventory-model")
 const Util = {}
 const jwt = require("jsonwebtoken")
+const accountModel = require('../models/account-model')
 require("dotenv").config()
 /* ************************
  * Constructs the nav HTML unordered list
@@ -135,21 +136,51 @@ Util.buildDetailsGrid = async function (data) {
   return grid;
 };
 
-Util.buildClassDropdown = async function (classification_id) {
-  let data = await invModel.getClassifications()
-  let select =
-    '<label for="classification_id">Classification:</label><select id="classification_id" class="class-dropdown p-font" name="classification_id" required><option value="" disabled selected>Select classification</option>'
 
-  for (var i = 0; i < data.rowCount; i++) {
-    const selected =
-      classification_id && data.rows[i].classification_id === classification_id
-        ? "selected"
-        : ""
-    select += `<option value="${data.rows[i].classification_id}" ${selected}>${data.rows[i].classification_name}</option>`
-  }
-  select += "</select>"
-  return select
+Util.buildReviewsByInventoryId = async function(data) {
+  let invReviews
+  let screenName
+  let accData
+  if (data.length > 0) {
+      invReviews = "<ul>"
+
+      for (let i = data.length-1; i >= 0; i--) {
+          accData = await accountModel.getAccountByID(data[i].account_id)
+          screenName = accData.account_firstname.charAt(0) + accData.account_lastname           
+          invReviews += '<li id="review-display">'            
+          invReviews += `<p class="review-info">${screenName} wrote on ${data[i].review_date.toLocaleString()}</p>`  
+          invReviews += `<p>${data[i].review_text}</p>`
+          invReviews += "</li>"            
+     }
+     invReviews += "</ul>"       
+  }    
+  return invReviews
 }
+
+Util.buildReviewsByAccountId = async function(reviewData, invData) {
+  let reviewList  
+  if (reviewData.length > 0) {
+      let invItem, invName        
+      reviewList = '<div id="management-review-display">'
+      reviewList += `<ul>`        
+      reviewData.forEach(review => {
+          invData.forEach(item => {
+              if (item.inv_id == review.inv_id) {invItem = item}
+          })
+          // new Intl.Locale('en-US').format
+          invName = `${invItem.inv_year} ${invItem.inv_model} ${invItem.inv_make}`   
+          reviewList += `<li>Reviewed ${invName} ${review.review_date.toLocaleString()} | <a href="/review/edit/${review.review_id}">Edit</a> | <a href="/review/delete/${review.review_id}">Delete</a></li>`    
+     })
+     reviewList +='</ul>'
+     reviewList +='</div>'
+     
+  }
+  return reviewList
+}
+
+
+
+
 /* ****************************************
  *  Check Login
  * ************************************ */
@@ -162,6 +193,14 @@ Util.checkLogin = (req, res, next) => {
   }
  }
 
+ Util.checkAccType = (req, res, next) => {
+  if (res.locals.accountData.account_type === "Client") {
+    next();
+  } else {
+    req.flash("notice", "Please login as a Client!");
+    return res.redirect("/account/login");
+  }
+}
 /* ****************************************
 * Middleware to check token validity
 **************************************** */

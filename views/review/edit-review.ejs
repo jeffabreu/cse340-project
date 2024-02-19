@@ -1,0 +1,33 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
+    
+<!-- Message block -->
+<%- messages() %>
+
+
+<% if (locals.loggedin) { %>
+
+<!-- The add review form displays here  -->
+<form id="addRevForm" action="/review/edit" method="post">
+
+    <div class="account-form">
+
+      <label for="screen_name">Make</label>
+      <input type="text" name="screen_name" id="screenName" disabled value="<%= locals.accountData.account_firstname.charAt(0) + locals.accountData.account_lastname %>">
+
+      <label for="review_text">Description</label>
+      <textarea name="review_text" id="reviewText" rows="4" cols="50" required><%= review_text %></textarea>
+  
+      <button type="submit">Edit review</button>
+
+      <input type="hidden" name="review_id"
+      <% if(review_id) { %> value="<%= review_id %>"
+      <% } %>>
+
+    </div>
+    
+</form>
+<% } %>

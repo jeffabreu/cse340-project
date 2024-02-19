@@ -179,6 +179,24 @@ async function deleteVehicle(inv_id) {
     console.error("Delete Inventory Error")
   }
 }
+
+
+async function getInventory() {
+  try {
+      const data = await pool.query(
+          "SELECT * FROM public.inventory ORDER BY inv_id"
+      )
+      return data.rows
+  } catch (error) {
+      console.error("getinventoryerror: " + error)
+
+  }
+  
+}
+
+
+
+
 // Export all functions for use in other modules
 module.exports = {
     getClassifications,
@@ -190,5 +208,6 @@ module.exports = {
     checkExistingCatById,
     deleteInventoryItem,
     updateInventory,
-    deleteVehicle
+    deleteVehicle,
+    getInventory
 }
